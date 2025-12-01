@@ -5,7 +5,7 @@ namespace Devices.Infrastructure.Repositories;
 
 public interface IDeviceRepository
 {
-    Task<Device> AddAsync(Device device, CancellationToken ct = default);
+    Task<Device> CreateAsync(Device device, CancellationToken ct = default);
     Task<Device?> GetByIdAsync(int id, CancellationToken ct = default);
     Task<IEnumerable<Device>> GetAllAsync(CancellationToken ct = default);
     Task<IEnumerable<Device>> GetByBrandAsync(string brand, CancellationToken ct = default);
