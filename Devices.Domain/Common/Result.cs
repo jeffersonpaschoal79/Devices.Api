@@ -19,7 +19,7 @@ public class Result
     public static Result Failure(string error) => new Result(false, error);
 }
 
-public sealed class Result<T> : Result
+public class Result<T> : Result
 {
     public T? Value { get; }
 
