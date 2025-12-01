@@ -10,7 +10,7 @@ public class DeviceRepository : IDeviceRepository
     private readonly AppDbContext _db;
     public DeviceRepository(AppDbContext db) => _db = db;
 
-    public async Task<Device> AddAsync(Device device, CancellationToken ct = default)
+    public async Task<Device> CreateAsync(Device device, CancellationToken ct = default)
     {
         _db.Devices.Add(device);
         await _db.SaveChangesAsync(ct);
