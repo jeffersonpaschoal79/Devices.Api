@@ -52,7 +52,7 @@ public static class DevicesEndpoints
         // Get device by brand
         group.MapGet("/by-brand", async (string? brand, GetDevicesUseCase uc) =>
         {
-            if (string.IsNullOrWhiteSpace(brand)) return Results.BadRequest(new { error = "brand is required" });
+            if (string.IsNullOrWhiteSpace(brand)) return Results.BadRequest(new { error = "Brand is required" });
 
             var list = await uc.GetByBrandAsync(brand);
             return Results.Ok(list);
@@ -64,7 +64,7 @@ public static class DevicesEndpoints
         // Get device by state
         group.MapGet("/by-state", async (string? state, GetDevicesUseCase uc) =>
         {
-            if (string.IsNullOrWhiteSpace(state)) return Results.BadRequest(new { error = "state is required" });
+            if (string.IsNullOrWhiteSpace(state)) return Results.BadRequest(new { error = "State is required" });
 
             if (!Enum.TryParse<DeviceState>(state, true, out var parsed))
                 return Results.BadRequest(new { error = "invalid state. valid values: Available, InUse, Inactive" });
@@ -75,6 +75,25 @@ public static class DevicesEndpoints
         .WithName("GetDevicesByState")
         .Produces<IEnumerable<Device>>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status400BadRequest);
+
+        // Delete device by id
+        group.MapDelete("/{id:int}", async (int id, DeleteDeviceUseCase uc) =>
+        {
+            var result = await uc.DeleteAsync(id);
+            if (!result.IsSuccess)
+                return result.Error switch
+                {
+                    "Device not found" => Results.NotFound(new { error = result.Error }),
+                    "In-use devices cannot be deleted" => Results.BadRequest(new { error = result.Error }),
+                    _ => Results.Problem(result.Error)
+                };
+
+            return Results.NoContent();
+        })
+        .WithName("DeleteDevice")
+        .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status400BadRequest)
+        .Produces(StatusCodes.Status404NotFound);
 
     }
 }

@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 builder.Services.AddScoped<CreateDeviceUseCase>();
 builder.Services.AddScoped<GetDevicesUseCase>();
+builder.Services.AddScoped<DeleteDeviceUseCase>();
 
 builder.Services.AddEndpointsApiExplorer();
 
