@@ -1,6 +1,7 @@
 ﻿using Devices.Application.Dtos;
 using Devices.Application.UseCases;
 using Devices.Domain.Entities;
+using Devices.Domain.Enums;
 
 namespace Devices.Api.EndPoints;
 
@@ -10,6 +11,7 @@ public static class DevicesEndpoints
     {
         var group = app.MapGroup("/api/devices");
 
+        //Create device
         group.MapPost("", async (DeviceDto dto, CreateDeviceUseCase uc) =>
         {
             if (dto is null)
@@ -28,6 +30,7 @@ public static class DevicesEndpoints
         .Produces<Device>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status400BadRequest);
 
+        //Get all devices
         group.MapGet("", async (GetDevicesUseCase uc) =>
         {
             var all = await uc.GetAllAsync();
@@ -35,5 +38,43 @@ public static class DevicesEndpoints
         })
                 .WithName("GetAllDevices")
                 .Produces<IEnumerable<Device>>(StatusCodes.Status200OK);
+
+        // Get devices by Id
+        group.MapGet("/{id:int}", async (int id, GetDevicesUseCase uc) =>
+        {
+            var device = await uc.GetByIdAsync(id);
+            return device is null ? Results.NotFound(new { error = "Device not found" }) : Results.Ok(device);
+        })
+        .WithName("GetDeviceById")
+        .Produces<Device>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
+
+        // Get device by brand
+        group.MapGet("/by-brand", async (string? brand, GetDevicesUseCase uc) =>
+        {
+            if (string.IsNullOrWhiteSpace(brand)) return Results.BadRequest(new { error = "brand is required" });
+
+            var list = await uc.GetByBrandAsync(brand);
+            return Results.Ok(list);
+        })
+        .WithName("GetDevicesByBrand")
+        .Produces<IEnumerable<Device>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status400BadRequest);
+
+        // Get device by state
+        group.MapGet("/by-state", async (string? state, GetDevicesUseCase uc) =>
+        {
+            if (string.IsNullOrWhiteSpace(state)) return Results.BadRequest(new { error = "state is required" });
+
+            if (!Enum.TryParse<DeviceState>(state, true, out var parsed))
+                return Results.BadRequest(new { error = "invalid state. valid values: Available, InUse, Inactive" });
+
+            var list = await uc.GetByStateAsync(parsed);
+            return Results.Ok(list);
+        })
+        .WithName("GetDevicesByState")
+        .Produces<IEnumerable<Device>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status400BadRequest);
+
     }
 }
