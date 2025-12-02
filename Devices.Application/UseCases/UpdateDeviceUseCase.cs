@@ -6,6 +6,9 @@ using Devices.Infrastructure.Repositories;
 
 namespace Devices.Application.UseCases;
 
+/// <summary>
+/// Use case for updating an existing device.
+/// </summary>
 public class UpdateDeviceUseCase
 {
     private readonly IDeviceRepository _repo;
@@ -39,6 +42,7 @@ public class UpdateDeviceUseCase
 
         var state = ParseState(dto.State);
 
+        //Only update what was provided
         var updateName = string.IsNullOrWhiteSpace(dto.Name) ? existing.Name : dto.Name;
         var updateBrand = string.IsNullOrWhiteSpace(dto.Brand) ? existing.Brand : dto.Brand;
         var updateState = state ?? existing.State;

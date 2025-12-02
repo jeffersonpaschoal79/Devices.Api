@@ -6,14 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure the application to listen on port 80
 builder.WebHost.UseUrls("http://*:80");
 
 // Add services to the container.
+// Configure DbContext with PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+//Register repositories and use cases
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 builder.Services.AddScoped<CreateDeviceUseCase>();
 builder.Services.AddScoped<GetDevicesUseCase>();
@@ -29,10 +32,12 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+// Apply pending migrations at startup
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
+    // Retry logic for database migration to handle transient failures
     var retries = 20;
     while (retries-- > 0)
     {

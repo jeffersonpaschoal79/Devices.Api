@@ -6,6 +6,9 @@ using Devices.Infrastructure.Repositories;
 
 namespace Devices.Application.UseCases;
 
+/// <summary>
+/// Use case for creating a new device.
+/// </summary>
 public class CreateDeviceUseCase
 {
     private readonly IDeviceRepository _repo;

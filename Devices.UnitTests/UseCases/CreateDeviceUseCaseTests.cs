@@ -6,7 +6,9 @@ using FluentAssertions;
 using Moq;
 
 namespace Devices.Api.Tests.UseCases;
-
+/// <summary>
+/// CreateDeviceUseCase unit tests.
+/// </summary>
 public class CreateDeviceUseCaseTests
 {
     [Fact]

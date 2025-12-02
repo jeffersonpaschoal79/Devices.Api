@@ -2,7 +2,9 @@
 using Devices.Domain.Enums;
 
 namespace Devices.Infrastructure.Repositories;
-
+/// <summary>
+/// Repository interface for managing Device entities.
+/// </summary>
 public interface IDeviceRepository
 {
     Task<Device> CreateAsync(Device device, CancellationToken ct = default);

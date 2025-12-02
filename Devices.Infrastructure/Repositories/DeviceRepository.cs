@@ -5,6 +5,9 @@ using Devices.Infrastructure.Data;
 
 namespace Devices.Infrastructure.Repositories;
 
+/// <summary>
+/// Implementation of IDeviceRepository using Entity Framework Core.
+/// </summary>
 public class DeviceRepository : IDeviceRepository
 {
     private readonly AppDbContext _db;
