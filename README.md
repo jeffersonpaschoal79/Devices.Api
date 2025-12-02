@@ -1,7 +1,19 @@
 Devices API
 
+
 A simple, clean and fully containerized .NET API designed to manage devices.
 It follows a layered architecture (Domain → Application → Infrastructure → API) with clear separation of concerns, basic validation rules, error handling with Result<T>, EF Core migrations, Docker support, and automated tests.
+
+Features
+
+- CRUD operations for devices
+- Validation rules enforced at the domain layer
+- Device life-cycle restrictions (e.g., in-use devices cannot be deleted or have name/brand updated)
+- Clean separation of concerns across layers
+- Database migrations executed automatically at startup
+- Docker-ready environment with PostgreSQL
+- Full unit test coverage for domain and use cases
+
 
 Architecture Overview
 
@@ -48,11 +60,18 @@ Architectural Patterns & Practices Used
 - Unit of Work (via EF Core)
 
 
-Running the Project With Docker
-
 Unit Tests (xUnit + Moq + FluentAssertions)
 
-- Covers the core use cases and domain validations.
+- Domain entity validation
+- All application use cases (Create, Update, Delete, Get, List)
+- Success and failure paths
+- Result pattern behavior
+
+Tests run independently from the database and have no external dependencies.
+
+Run tests (in the root of the Devices.UnitTests project):
+
+dotnet test
 
 
 Running the Project With Docker
@@ -88,6 +107,17 @@ If you want a clean run:
 
 - docker compose down -v
 - docker compose up --build
+
+
+Local Development (without Docker)
+
+- Install dependencies
+dotnet restore
+- Configure the connection to a local Postgres database
+- Apply migrations
+dotnet ef database update
+- Run the API
+dotnet run --project Devices.Api
 
 
 API Endpoints
