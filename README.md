@@ -138,6 +138,7 @@ If you want to generate new migrations locally:
 - dotnet ef migrations add <MigrationName> -p Devices.Infrastructure -s Devices.Api
 - dotnet ef database update -p Devices.Infrastructure -s Devices.Api
 
+
 Future enhancements
 
 - Implement error handling to catch issues like database connectivity errors
