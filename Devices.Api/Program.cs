@@ -16,6 +16,7 @@ builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 builder.Services.AddScoped<CreateDeviceUseCase>();
 builder.Services.AddScoped<GetDevicesUseCase>();
 builder.Services.AddScoped<DeleteDeviceUseCase>();
+builder.Services.AddScoped<UpdateDeviceUseCase>();
 
 builder.Services.AddEndpointsApiExplorer();
 
