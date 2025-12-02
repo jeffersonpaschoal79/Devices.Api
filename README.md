@@ -36,6 +36,20 @@ API Layer
 - Dockerized runtime environment.
 
 
+Architectural Patterns & Practices Used
+
+- Domain-Driven Design (DDD)
+- Clean Architecture
+- CQRS (Command/Query Separation)
+- Repository Pattern
+- Result Pattern (Railway-Oriented approach)
+- SOLID Principles
+- Dependency Injection
+- Unit of Work (via EF Core)
+
+
+Running the Project With Docker
+
 Unit Tests (xUnit + Moq + FluentAssertions)
 
 - Covers the core use cases and domain validations.
