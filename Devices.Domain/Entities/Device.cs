@@ -6,9 +6,9 @@ namespace Devices.Domain.Entities;
 public sealed class Device
 {
     public int Id { get; private set; }
-    public string Name { get; private set; } = null!;
-    public string Brand { get; private set; } = null!;
-    public DeviceState State { get; private set; }
+    public string Name { get; set; } = null!;
+    public string Brand { get; set; } = null!;
+    public DeviceState State { get; set; }
     public DateTime CreatedAt { get; private set; }
 
     private Device() { }

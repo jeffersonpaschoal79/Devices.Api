@@ -95,5 +95,43 @@ public static class DevicesEndpoints
         .Produces(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status404NotFound);
 
+        // Update device by id
+        group.MapPut("/{id:int}", async (int id, DeviceDto dto, UpdateDeviceUseCase uc) =>
+        {
+            var result = await uc.UpdateAsync(id, dto);
+            if (!result.IsSuccess)
+                return result.Error switch
+                {
+                    "Device not found" => Results.NotFound(new { error = result.Error }),
+                    "Cannot update Name or Brand when device is in use" =>
+                        Results.BadRequest(new { error = result.Error }),
+                    _ => Results.BadRequest(new { error = result.Error })
+                };
+
+            return Results.Ok(result.Value);
+        })
+        .WithName("UpdateDevice")
+        .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status404NotFound)
+        .Produces(StatusCodes.Status400BadRequest);
+
+        group.MapPatch("/{id:int}", async (int id, DeviceDto dto, UpdateDeviceUseCase uc) =>
+        {
+            var result = await uc.UpdatePartialAsync(id, dto);
+            if (!result.IsSuccess)
+                return result.Error switch
+                {
+                    "Device not found" => Results.NotFound(new { error = result.Error }),
+                    "Cannot update Name or Brand when device is in use" =>
+                        Results.BadRequest(new { error = result.Error }),
+                    _ => Results.BadRequest(new { error = result.Error })
+                };
+
+            return Results.Ok(result.Value);
+        })
+        .WithName("PatchDevice")
+        .Produces(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound)
+        .Produces(StatusCodes.Status400BadRequest); 
     }
 }
