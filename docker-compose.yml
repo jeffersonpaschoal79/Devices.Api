@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: devices
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: pwd123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  devices.api:
+    build:
+      context: .
+      dockerfile: Devices.Api/Dockerfile
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: "Host=db;Port=5432;Database=devices;Username=dbuser;Password=pwd123"
+    ports:
+      - "7080:80"
+    platform: linux/amd64
+
+volumes:
+  pgdata:
