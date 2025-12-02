@@ -4,7 +4,9 @@ using Devices.Domain.Entities;
 using Devices.Domain.Enums;
 
 namespace Devices.Api.EndPoints;
-
+/// <summary>
+/// Defines the API endpoints for managing devices.
+/// </summary>
 public static class DevicesEndpoints
 {
     public static void MapDevices(this WebApplication app)

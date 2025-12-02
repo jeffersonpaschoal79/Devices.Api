@@ -7,6 +7,9 @@ using Moq;
 
 namespace Devices.Api.Tests.UseCases;
 
+/// <summary>
+/// GetDevicesUseCase unit tests.
+/// </summary>
 public class GetDevicesUseCaseTests
 {
     [Fact]

@@ -4,7 +4,9 @@ using FluentAssertions;
 using Xunit;
 
 namespace Devices.Api.Tests.Domain;
-
+/// <summary>
+/// Device entity Domain unit tests.
+/// </summary>
 public class DeviceTests
 {
     [Fact]

@@ -6,6 +6,9 @@ using Devices.Infrastructure.Repositories;
 
 namespace Devices.Application.UseCases;
 
+/// <summary>
+/// Use case for retrieving devices.
+/// </summary>
 public class GetDevicesUseCase
 {
     private readonly IDeviceRepository _repo;

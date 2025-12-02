@@ -8,6 +8,9 @@ using Moq;
 
 namespace Devices.Api.Tests.UseCases;
 
+/// <summary>
+/// UpdateDeviceUseCase unit tests.
+/// </summary>
 public class UpdateDeviceUseCaseTests
 {
     [Fact]

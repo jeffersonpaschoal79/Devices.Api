@@ -4,14 +4,15 @@ using Devices.Infrastructure.Repositories;
 
 namespace Devices.Application.UseCases;
 
+/// <summary>
+/// Use case for deleting a device.
+/// </summary>
 public class DeleteDeviceUseCase
 {
     private readonly IDeviceRepository _repo;
 
     public DeleteDeviceUseCase(IDeviceRepository repo) => _repo = repo;
 
-    /// <summary>
-    /// </summary>
     public async Task<Result> DeleteAsync(int id, CancellationToken ct = default)
     {
         var device = await _repo.GetByIdAsync(id, ct);

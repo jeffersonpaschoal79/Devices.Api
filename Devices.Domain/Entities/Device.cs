@@ -2,7 +2,9 @@
 using Devices.Domain.Enums;
 
 namespace Devices.Domain.Entities;
-
+/// <summary>
+/// Device entity representing a device in the system.
+/// </summary>
 public sealed class Device
 {
     public int Id { get; private set; }
@@ -15,6 +17,7 @@ public sealed class Device
 
     public static Result<Device> Create(string name, string brand, DeviceState? state = null)
     {
+        // Validate required fields
         if (string.IsNullOrWhiteSpace(name))
             return Result<Device>.Failure("Name is required");
         if (string.IsNullOrWhiteSpace(brand))
@@ -33,9 +36,11 @@ public sealed class Device
 
     public Result Update(string? name, string? brand, DeviceState? state)
     {
+        // Prevent changing Name or Brand if device is in use
         if (State == DeviceState.InUse && (name != null || brand != null))
             return Result.Failure("Cannot update Name or Brand when device is in use");
 
+        // Validate and update fields
         if (name is not null)
         {
             if (string.IsNullOrWhiteSpace(name)) return Result.Failure("Name is required");
